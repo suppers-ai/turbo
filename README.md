@@ -1,9 +1,5 @@
-<div align="center">
+<div >
   <img src="assets/TurboLogo.png" alt="TURBO Logo" width="400"/>
-
-  # TURBO
-
-  **TURn-Based Operations**
 
   A modern, type-safe TypeScript library for building turn-based games
 
@@ -11,8 +7,6 @@
   [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)](https://www.typescriptlang.org/)
   [![npm version](https://img.shields.io/npm/v/@bloombeasts/turbo.svg)](https://www.npmjs.com/package/@bloombeasts/turbo)
 </div>
-
----
 
 ## Features
 
@@ -306,6 +300,6 @@ MIT License - see the [LICENSE](LICENSE) file for details
 
 ## Credits
 
-Built with ❤️ by the Suppers AI team
+Built with ❤️ by the Suppers Software team
 
 Repository: [https://github.com/suppers-ai/turbo](https://github.com/suppers-ai/turbo)
