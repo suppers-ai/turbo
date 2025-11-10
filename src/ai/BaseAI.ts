@@ -2,7 +2,7 @@
  * Base AI implementation with common functionality
  */
 
-import { IAIPlayer, IAIConfig, AILevel } from './interfaces/IAI';
+import { IAIPlayer, IAIConfig, AILevel, AsyncMethods } from './interfaces/IAI';
 import { IGameState, IGameAction } from '../core/interfaces/IGame';
 
 /**
@@ -15,12 +15,14 @@ export abstract class BaseAI<TState extends Record<string, unknown> = Record<str
   protected difficulty: AILevel;
   protected thinkingTime: { min: number; max: number };
   protected randomSeed?: string;
+  protected async?: AsyncMethods;
 
   constructor(config: IAIConfig) {
     this.playerId = config.playerId;
     this.difficulty = config.difficulty;
     this.thinkingTime = config.thinkingTime || this.getDefaultThinkingTime(config.difficulty);
     this.randomSeed = config.randomSeed;
+    this.async = config.async;
   }
 
   abstract chooseAction(
@@ -41,12 +43,18 @@ export abstract class BaseAI<TState extends Record<string, unknown> = Record<str
 
   /**
    * Simulate thinking delay for better UX
+   * Requires async methods to be provided in config
    */
   protected async simulateThinking(): Promise<void> {
+    if (!this.async) {
+      // No async methods provided - skip delay
+      return Promise.resolve();
+    }
+
     const delay = this.thinkingTime.min +
       Math.random() * (this.thinkingTime.max - this.thinkingTime.min);
 
-    return new Promise(resolve => setTimeout(resolve, delay));
+    return new Promise(resolve => this.async!.setTimeout(resolve, delay));
   }
 
   /**

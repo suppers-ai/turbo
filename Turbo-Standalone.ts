@@ -11,7 +11,7 @@
  *   const ai = new Turbo.RandomAI(config);
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
- * Generated: 2025-11-05T21:36:58.158Z
+ * Generated: 2025-11-10T05:11:23.314Z
  * Files: 16
  *
  * @version 2.0.0
@@ -301,6 +301,17 @@ namespace Turbo {
   }
 
   /**
+   * Platform async methods interface
+   * Provides setTimeout, setInterval, clearTimeout, clearInterval
+   */
+  export interface AsyncMethods {
+    setTimeout: (callback: (...args: any[]) => void, timeout?: number) => number;
+    clearTimeout: (id: number) => void;
+    setInterval: (callback: (...args: any[]) => void, timeout?: number) => number;
+    clearInterval: (id: number) => void;
+  }
+
+  /**
    * AI difficulty levels
    */
   export enum AILevel {
@@ -323,6 +334,7 @@ namespace Turbo {
     randomSeed?: string;
     maxDepth?: number;
     evaluationFunction?: (state: IGameState) => number;
+    async?: AsyncMethods;
   }
 
   /**
@@ -1198,12 +1210,14 @@ namespace Turbo {
     protected difficulty: AILevel;
     protected thinkingTime: { min: number; max: number };
     protected randomSeed?: string;
+    protected async?: AsyncMethods;
 
     constructor(config: IAIConfig) {
       this.playerId = config.playerId;
       this.difficulty = config.difficulty;
       this.thinkingTime = config.thinkingTime || this.getDefaultThinkingTime(config.difficulty);
       this.randomSeed = config.randomSeed;
+      this.async = config.async;
     }
 
     abstract chooseAction(
@@ -1224,12 +1238,18 @@ namespace Turbo {
 
     /**
      * Simulate thinking delay for better UX
+     * Requires async methods to be provided in config
      */
     protected async simulateThinking(): Promise<void> {
+      if (!this.async) {
+        // No async methods provided - skip delay
+        return Promise.resolve();
+      }
+
       const delay = this.thinkingTime.min +
         Math.random() * (this.thinkingTime.max - this.thinkingTime.min);
 
-      return new Promise(resolve => setTimeout(resolve, delay));
+      return new Promise(resolve => this.async!.setTimeout(resolve, delay));
     }
 
     /**

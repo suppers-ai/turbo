@@ -33,6 +33,17 @@ export interface IAIPlayer<TState extends Record<string, unknown> = Record<strin
 }
 
 /**
+ * Platform async methods interface
+ * Provides setTimeout, setInterval, clearTimeout, clearInterval
+ */
+export interface AsyncMethods {
+  setTimeout: (callback: (...args: any[]) => void, timeout?: number) => number;
+  clearTimeout: (id: number) => void;
+  setInterval: (callback: (...args: any[]) => void, timeout?: number) => number;
+  clearInterval: (id: number) => void;
+}
+
+/**
  * AI difficulty levels
  */
 export enum AILevel {
@@ -55,6 +66,7 @@ export interface IAIConfig {
   randomSeed?: string;
   maxDepth?: number;
   evaluationFunction?: (state: IGameState) => number;
+  async?: AsyncMethods;
 }
 
 /**
