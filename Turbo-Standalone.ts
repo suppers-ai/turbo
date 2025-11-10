@@ -11,7 +11,7 @@
  *   const ai = new Turbo.RandomAI(config);
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
- * Generated: 2025-11-10T05:11:23.314Z
+ * Generated: 2025-11-10T07:39:09.391Z
  * Files: 16
  *
  * @version 2.0.0
@@ -356,23 +356,10 @@ namespace Turbo {
   // ==================== src\utils\deepClone.ts ====================
 
   /**
-   * Efficient deep cloning utility using structured cloning when available
-   */
-
-  /**
-   * Deep clone an object using the most efficient method available
+   * Deep clone an object using manual cloning for consistency across all platforms
+   * (Avoids structuredClone to ensure compatibility with all environments)
    */
   export function deepClone<T>(obj: T): T {
-    // Use structured cloning if available (Node 17+ and modern browsers)
-    if (typeof structuredClone === 'function') {
-      try {
-        return structuredClone(obj);
-      } catch {
-        // Fall back to manual cloning if structuredClone fails
-      }
-    }
-
-    // Manual deep clone for older environments
     return manualDeepClone(obj);
   }
 

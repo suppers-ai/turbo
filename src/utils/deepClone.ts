@@ -1,21 +1,8 @@
 /**
- * Efficient deep cloning utility using structured cloning when available
- */
-
-/**
- * Deep clone an object using the most efficient method available
+ * Deep clone an object using manual cloning for consistency across all platforms
+ * (Avoids structuredClone to ensure compatibility with all environments)
  */
 export function deepClone<T>(obj: T): T {
-  // Use structured cloning if available (Node 17+ and modern browsers)
-  if (typeof structuredClone === 'function') {
-    try {
-      return structuredClone(obj);
-    } catch {
-      // Fall back to manual cloning if structuredClone fails
-    }
-  }
-
-  // Manual deep clone for older environments
   return manualDeepClone(obj);
 }
 
