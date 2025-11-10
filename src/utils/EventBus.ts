@@ -88,8 +88,8 @@ export class EventBus<TEvents extends Record<string, unknown>> {
     const onceHandlers = this.onceListeners.get(event);
 
     const allHandlers = [
-      ...(handlers || []),
-      ...(onceHandlers || []),
+      ...(handlers ? Array.from(handlers) : []),
+      ...(onceHandlers ? Array.from(onceHandlers) : []),
     ];
 
     await Promise.all(

@@ -16,24 +16,24 @@ function manualDeepClone<T>(obj: T, visited = new WeakMap()): T {
   }
 
   // Handle circular references
-  if (visited.has(obj as object)) {
-    return visited.get(obj as object) as T;
+  if (visited.has(obj as unknown as object)) {
+    return visited.get(obj as unknown as object) as T;
   }
 
   // Handle Date
   if (obj instanceof Date) {
-    return new Date(obj.getTime()) as T;
+    return new Date(obj.getTime()) as unknown as T;
   }
 
   // Handle RegExp
   if (obj instanceof RegExp) {
-    return new RegExp(obj.source, obj.flags) as T;
+    return new RegExp(obj.source, obj.flags) as unknown as T;
   }
 
   // Handle Array
   if (Array.isArray(obj)) {
     const cloned: unknown[] = [];
-    visited.set(obj, cloned as T);
+    visited.set(obj, cloned as unknown as T);
 
     for (let i = 0; i < obj.length; i++) {
       cloned[i] = manualDeepClone(obj[i], visited);
@@ -45,7 +45,7 @@ function manualDeepClone<T>(obj: T, visited = new WeakMap()): T {
   // Handle Map
   if (obj instanceof Map) {
     const cloned = new Map();
-    visited.set(obj, cloned as T);
+    visited.set(obj, cloned as unknown as T);
 
     obj.forEach((value, key) => {
       cloned.set(
@@ -60,7 +60,7 @@ function manualDeepClone<T>(obj: T, visited = new WeakMap()): T {
   // Handle Set
   if (obj instanceof Set) {
     const cloned = new Set();
-    visited.set(obj, cloned as T);
+    visited.set(obj, cloned as unknown as T);
 
     obj.forEach(value => {
       cloned.add(manualDeepClone(value, visited));
@@ -71,7 +71,7 @@ function manualDeepClone<T>(obj: T, visited = new WeakMap()): T {
 
   // Handle plain objects
   const cloned: Record<string, unknown> = {};
-  visited.set(obj as object, cloned as T);
+  visited.set(obj as unknown as object, cloned as unknown as T);
 
   for (const key in obj) {
     if (Object.prototype.hasOwnProperty.call(obj, key)) {
