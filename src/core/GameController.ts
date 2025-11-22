@@ -275,8 +275,8 @@ export class GameController<TState extends Record<string, unknown> = Record<stri
   }
 
   private validateConfig(config: IGameConfig): void {
-    if (!config.players || config.players.length < 2) {
-      throw new Error('At least 2 players are required');
+    if (!config.players || config.players.length < 1) {
+      throw new Error('At least 1 player is required');
     }
 
     const playerIds = new Set(config.players.map(p => p.id));

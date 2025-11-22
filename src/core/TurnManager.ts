@@ -21,8 +21,8 @@ export class TurnManager {
    * Initialize with players
    */
   initialize(players: IPlayer[]): void {
-    if (players.length < 2) {
-      throw new Error('At least 2 players required');
+    if (players.length < 1) {
+      throw new Error('At least 1 players required');
     }
 
     this.players = [...players];
